@@ -22,23 +22,27 @@ use CapSequm_utils;
 
 $| = 1;
 
-my ($genome_file, $chr_lengths_file, $organism, $scientific_name) = &CapSequm_utils::_get_build_data_files($build);	
+#my ($genome_file, $chr_lengths_file, $organism, $scientific_name) = &CapSequm_utils::_get_build_data_files($build);	
+my $chr_lengths_file = "/databank/igenomes/Mus_musculus/UCSC/mm9/Sequence/WholeGenomeFasta/chr_sizes.txt";
 
-
-my $tmp_data_dir = '/t1-data/wwwtmp/CapSequm/' . $data_tag . '/';
-my $www_tmp_dir = '/public/CaptureC/';
-my $www_tmp_data_dir = $www_tmp_dir . $data_tag . '/';  
+#my $tmp_data_dir = '/t1-data/wwwtmp/CapSequm/' . $data_tag . '/';
+#my $www_tmp_dir = '/public/CaptureC/';
+#my $www_tmp_data_dir = $www_tmp_dir . $data_tag . '/';  
 
 # full path to repeatmasker file:
 my $repeatmasker_file = $MafFile . '.out';
 
 # full paths to output files:
-my $wig_file = $tmp_data_dir . $data_name . '.wig';
-my $MIG_gff_file = $tmp_data_dir . $data_name . '_MIG.gff'; 
-my $Oligos_gff_file = $tmp_data_dir . $data_name . '_Oligos.gff'; 
-my $bigwig_file = $tmp_data_dir . $data_name . '.bw';
+#my $wig_file = $tmp_data_dir . $data_name . '.wig';
+#my $MIG_gff_file = $tmp_data_dir . $data_name . '_MIG.gff'; 
+#my $Oligos_gff_file = $tmp_data_dir . $data_name . '_Oligos.gff'; 
+#my $bigwig_file = $tmp_data_dir . $data_name . '.bw';
+my $wig_file = 'temp.wig';
+my $MIG_gff_file = 'temp_MIG.gff'; 
+my $Oligos_gff_file = 'temp_Oligos.gff'; 
+my $bigwig_file = 'temp.bw';
 
-my $lookup = $tmp_data_dir . $data_name . '_tmp.txt';
+my $lookup = '_tmp.txt';
 
 open (OUTPUT, ">$wig_file") or die "cannot open file $wig_file: $!\n";
 open (OUTPUT2, ">$MIG_gff_file") or die "cannot open file $MIG_gff_file: $!\n";
@@ -276,15 +280,15 @@ my $wigToBigWig_cmd = "wigToBigWig -clip $wig_file $chr_lengths_file $bigwig_fil
 print "wigToBigWig cmd: $wigToBigWig_cmd\n";
 system($wigToBigWig_cmd) == 0 or die "couldn't bigwig file: $wig_file: $!\n";
 
-my $www_bigwig_file = $bigwig_file;
-$www_bigwig_file =~ s/$tmp_data_dir/$www_tmp_data_dir/;
-print "move bigwig cmd: move($bigwig_file, $www_bigwig_file)\n";
-move($bigwig_file, $www_bigwig_file) or die "cannot move files: $bigwig_file, $www_bigwig_file: $!";
+#my $www_bigwig_file = $bigwig_file;
+#$www_bigwig_file =~ s/$tmp_data_dir/$www_tmp_data_dir/;
+#print "move bigwig cmd: move($bigwig_file, $www_bigwig_file)\n";
+#move($bigwig_file, $www_bigwig_file) or die "cannot move files: $bigwig_file, $www_bigwig_file: $!";
 
-my $www_MIG_gff_file = $MIG_gff_file;
-$www_MIG_gff_file =~ s/$tmp_data_dir/$www_tmp_data_dir/;
-print "move MIG gff cmd: move($MIG_gff_file, $www_MIG_gff_file)\n";
-move($MIG_gff_file, $www_MIG_gff_file) or die "cannot move files: $MIG_gff_file, $www_MIG_gff_file: $!";
+#my $www_MIG_gff_file = $MIG_gff_file;
+#$www_MIG_gff_file =~ s/$tmp_data_dir/$www_tmp_data_dir/;
+#print "move MIG gff cmd: move($MIG_gff_file, $www_MIG_gff_file)\n";
+#move($MIG_gff_file, $www_MIG_gff_file) or die "cannot move files: $MIG_gff_file, $www_MIG_gff_file: $!";
 
 
 

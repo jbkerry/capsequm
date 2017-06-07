@@ -32,7 +32,7 @@ my $cutsite_length = length($cutsite);
 #open (OUTPUT4, ">$output_file_root\_Fragments.gff") or die "cannot open gff file: $! ";
 #open (OUTPUT5, ">$output_file_root\_tmp.txt") or die "open temp file: $! ";
 
-open (OUTPUT,  "_loops.mfa") or die "cannot open mfa file: $! ";
+open (OUTPUT,  ">_loops.mfa") or die "cannot open mfa file: $! ";
 open (OUTPUT1, ">_loops.bed") or die "cannot open bed file: $! ";	
 open (OUTPUT2, ">_Not_Designed.txt") or die "cannot open txt file: $! ";
 open (OUTPUT3, ">_Fragments.bed") or die "cannot open bed file: $! ";
