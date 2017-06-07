@@ -15,8 +15,8 @@ use CapSequm_utils;
 &GetOptions (
 		"blat=s"=> \my $file,
 		"maf=s"=> \my $MafFile,
-		"t=s"=> \my $data_tag,
-		"n=s"=> \my $data_name,
+		#"t=s"=> \my $data_tag,
+		#"n=s"=> \my $data_name,
 		"b=s"=> \my $build
 	     );
 
@@ -232,7 +232,7 @@ foreach my $Did (sort keys %OligoValue)
 	my $StoredRealID = $LoopUp{$TargetNumber};
 	my $NewID = "$Dchr" . ':' . "$Dstr" . '-' . "$Dstp" . '_' . "$StoredRealID";
 
-	print OUTPUT2 "chr$Dchr\tDepthGauge_MIG\t$data_name\t$Dstr\t$Dstp\t.\t.\t.\tNOFILTER_FragID=$NewID\; Oligo_Size=$OligoSize{$Did}\; Density=$density\; Percent_GC=$GCPercent\; Percent_CG=$CGPercent\; NOFILTER_Sequence=$StoredOligoSeq\; Duplication=$DupFlag\; Duplicates=$dupCount\; BLATed=$BlatFlag\; ";
+	print OUTPUT2 "chr$Dchr\tDepthGauge_MIG\t$build\t$Dstr\t$Dstp\t.\t.\t.\tNOFILTER_FragID=$NewID\; Oligo_Size=$OligoSize{$Did}\; Density=$density\; Percent_GC=$GCPercent\; Percent_CG=$CGPercent\; NOFILTER_Sequence=$StoredOligoSeq\; Duplication=$DupFlag\; Duplicates=$dupCount\; BLATed=$BlatFlag\; ";
 	
 	if (exists $ProblemSequences{$Did})
 	{
@@ -244,7 +244,7 @@ foreach my $Did (sort keys %OligoValue)
 		print OUTPUT2 "SimpleRepeat=FALSE\; SRepeatLength=0\; NOFILTER_RepeatSequence=NA\; RepeatType=NA\; RepeatClass=NA\;\n";
 	}
 	
-	print OUTPUT3 "chr$Dchr\tDepthGauge_Oligos\t$data_name\t$Dstr\t$Dstp\t.\t.\t.\tName=$NewID\;\n";	
+	print OUTPUT3 "chr$Dchr\tDepthGauge_Oligos\t$build\t$Dstr\t$Dstp\t.\t.\t.\tName=$NewID\;\n";	
 }
 close OUTPUT2;
 close OUTPUT3;
