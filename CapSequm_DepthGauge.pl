@@ -9,12 +9,12 @@ use IO::Handle;
 use Env::Modulecmd;
 Env::Modulecmd::load (qw(ucsctools));
 
-use lib '/package/cbrg/lib/';
-use CapSequm_utils;
+#use lib '/package/cbrg/lib/';
+#use CapSequm_utils;
 
 &GetOptions (
 		"blat=s"=> \my $file,
-		"maf=s"=> \my $MafFile,
+		"mfa=s"=> \my $MafFile,
 		#"t=s"=> \my $data_tag,
 		#"n=s"=> \my $data_name,
 		"b=s"=> \my $build
@@ -37,12 +37,12 @@ my $repeatmasker_file = $MafFile . '.out';
 #my $MIG_gff_file = $tmp_data_dir . $data_name . '_MIG.gff'; 
 #my $Oligos_gff_file = $tmp_data_dir . $data_name . '_Oligos.gff'; 
 #my $bigwig_file = $tmp_data_dir . $data_name . '.bw';
-my $wig_file = 'temp.wig';
-my $MIG_gff_file = 'temp_MIG.gff'; 
-my $Oligos_gff_file = 'temp_Oligos.gff'; 
-my $bigwig_file = 'temp.bw';
+my $wig_file = 'oligos.wig';
+my $MIG_gff_file = 'oligos_MIG.gff'; 
+my $Oligos_gff_file = 'oligos_info.gff'; 
+my $bigwig_file = 'oligos.bw';
 
-my $lookup = '_tmp.txt';
+my $lookup = 'tmp.txt';
 
 open (OUTPUT, ">$wig_file") or die "cannot open file $wig_file: $!\n";
 open (OUTPUT2, ">$MIG_gff_file") or die "cannot open file $MIG_gff_file: $!\n";

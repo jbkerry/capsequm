@@ -5,14 +5,17 @@ use Bio::DB::Sam;
 use Data::Dumper;
 use strict;
 
-use lib '/package/cbrg/lib/';
-use CapSequm_utils;
+#use lib '/package/cbrg/lib/';
+#use CapSequm_utils;
 
 &GetOptions
 (
 	#"n=s"=>\my $data_name,
 	#"t=s"=> \my $data_tag,
+	"r=s"=> \my $ref,
 	"b=s"=> \my $build,
+	"chr=s"=> \my $chr_lengths_file,
+	"bed=s"=> \my $coord_data,
 	"o=i"=>\my $oligo_size,
 	"c=s"=>\my $cutsite
 );
@@ -32,19 +35,19 @@ my $cutsite_length = length($cutsite);
 #open (OUTPUT4, ">$output_file_root\_Fragments.gff") or die "cannot open gff file: $! ";
 #open (OUTPUT5, ">$output_file_root\_tmp.txt") or die "open temp file: $! ";
 
-open (OUTPUT,  ">_loops.mfa") or die "cannot open mfa file: $! ";
-open (OUTPUT1, ">_loops.bed") or die "cannot open bed file: $! ";	
-open (OUTPUT2, ">_Not_Designed.txt") or die "cannot open txt file: $! ";
-open (OUTPUT3, ">_Fragments.bed") or die "cannot open bed file: $! ";
-open (OUTPUT4, ">_Fragments.gff") or die "cannot open gff file: $! ";
-open (OUTPUT5, ">_tmp.txt") or die "open temp file: $! ";
+open (OUTPUT,  ">oligos.mfa") or die "cannot open mfa file: $! ";
+open (OUTPUT1, ">oligos.bed") or die "cannot open bed file: $! ";	
+open (OUTPUT2, ">Not_Designed.txt") or die "cannot open txt file: $! ";
+open (OUTPUT3, ">fragments.bed") or die "cannot open bed file: $! ";
+open (OUTPUT4, ">fragments.gff") or die "cannot open gff file: $! ";
+open (OUTPUT5, ">tmp.txt") or die "open temp file: $! ";
 
 
 # get build info:
 #my ($genome_file, $chr_lengths_file, $organism, $scientific_name) = &CapSequm_utils::_get_build_data_files($build);
 
 # Store chromosome length of build to prevent cutsite serach falling of end of chromosome
-my $chr_lengths_file = "/databank/igenomes/Mus_musculus/UCSC/mm9/Sequence/WholeGenomeFasta/chr_sizes.txt";
+#my $chr_lengths_file = "/databank/igenomes/Mus_musculus/UCSC/mm9/Sequence/WholeGenomeFasta/chr_sizes.txt";
 my %chrlength;
 open (SIZES, $chr_lengths_file) or die "couldn't open chr_lengths_file: $chr_lengths_file: $!\n";	
 while (<SIZES>)
@@ -68,8 +71,8 @@ my %Redisigners;
 my $TempGeneID = 1;
 my %lookup;
 
-my $genome = "mm9";
-my $coord_data = '/t1-data1/WTSA_Dev/jkerry/CaptureC/DDownes/CapsequmInput_2.txt';
+
+#my $coord_data = '/t1-data1/WTSA_Dev/jkerry/CaptureC/DDownes/CapsequmInput_2.txt';
 open(INFO, $coord_data) or die "couldn't open coord_data file: $coord_data: $!\n";
 while (<INFO>)
 {
@@ -90,7 +93,7 @@ close OUTPUT5;
 
 # Load Genome:
 #my $fai = Bio::DB::Sam::Fai->load("$genome_file");
-my $fai = Bio::DB::Sam::Fai->load("$build");
+my $fai = Bio::DB::Sam::Fai->load("$ref");
 
 # Run through design Hash for analysis:
 foreach my $Storedchr (sort keys %StoredCoor)
@@ -253,7 +256,7 @@ foreach my $Storedchr (sort keys %StoredCoor)
 		
 		print OUTPUT ">$LeftID\n$fragment1\n>$RightID\n$fragment2\n";
 		print OUTPUT3 "$targetchr\t$LeftMoveStart\t$RightMoveEnd\t$OriginalId\n";
-		print OUTPUT4 "$targetchr\tFragExtract.pl\t$genome\t$LeftMoveStart\t$RightMoveEnd\t\.\t\.\t\.\tName=$OriginalId\;LeftID=$LeftID;RightID=$RightID\n";
+		print OUTPUT4 "$targetchr\tFragExtract.pl\t$build\t$LeftMoveStart\t$RightMoveEnd\t\.\t\.\t\.\tName=$OriginalId\;LeftID=$LeftID;RightID=$RightID\n";
 		
 		$output1_data{$targetchr}{$GenomicLeftStart} = "$targetchr\t$GenomicLeftStart\t$GenomicLeftStop\t$LeftID\n$targetchr\t$GenomicRightStart\t$GenomicRightStop\t$RightID\n";
 	}
