@@ -71,6 +71,7 @@ while (<MAF>)
 	{
 		$MafHeader = $_;
 		$MafHeader =~ s/>//g;
+		$MafHeader =~ s/\r//g;
 
 		my ($Mchr, $Mstart, $Mstop, @Mrest) = split(/[\:\-\_]/, $MafHeader);
 		my $Mcounter = $Mstart;
@@ -86,11 +87,16 @@ while (<MAF>)
 	if ($MAfLine == 2)
 	{
 		$MafSeq = $_;
+		$MafSeq =~ s/\r//g;
 		$StoredSeq{$MafHeader}=$MafSeq;
 		$MAfLine=0;
 	}
 }	
 close MAF;
+
+foreach my $key (keys %StoredSeq) {
+	print "".$key." = ".$StoredSeq{$key}."\n";
+}
 
 
 my $linenumber = 0;
